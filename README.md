@@ -3,9 +3,16 @@
 > **Plataforma de Microlearning Gamificada para Ensino de Front-End & Construção Cumulativa de Portfólio/Currículo Web**  
 > Desenvolvida na disciplina **AS64C - Certificadora de Competência Comum** da Universidade Tecnológica Federal do Paraná (UTFPR).
 
+[![Deploy no GitHub Pages](https://img.shields.io/badge/Acesse%20Online-GitHub%20Pages-brightgreen?style=for-the-badge&logo=github)](https://nieltom.github.io/FrontLingo/)
+
 [![Status](https://img.shields.io/badge/Status-Concluído-success.svg)](#)
 [![Tecnologias](https://img.shields.io/badge/Stack-HTML5%20%7C%20CSS3%20%7C%20ES6%2B%20Modular-blue.svg)](#)
 [![Metodologia](https://img.shields.io/badge/Metodologia-PBL%20%2B%20Mastery%20Learning-orange.svg)](#)
+
+---
+
+### 🌐 Acesse a Aplicação Online:
+👉 **[https://nieltom.github.io/FrontLingo/](https://nieltom.github.io/FrontLingo/)**
 
 ---
 
