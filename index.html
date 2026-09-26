@@ -1,0 +1,366 @@
+<!--
+  ============================================================================
+  PROJETO CERTIFICADORA UTFPR - AS64C: FRONTLINGO
+  Arquivo: index.html
+  Papel no Sistema: Estrutura Semântica da Aplicação SPA (Single Page Application)
+  ============================================================================
+
+  💡 EXPLICAÇÃO DIDÁTICA PARA O PROFESSOR:
+  "Professor, este é o único arquivo HTML carregado pelo navegador.
+  Ele adota o conceito de SPA (Single Page Application):
+  
+  1. ESTRUTURA SEMÂNTICA HTML5: Usamos as tags recomendadas pela W3C:
+     - <header> para a barra superior e status de gamificação;
+     - <nav> para o menu de navegação entre as 3 abas;
+     - <main> para agrupar as seções principais (<section id="view-trail">,
+       <section id="view-portfolio"> e <section id="view-team">);
+     - <aside> para a barra lateral de conquistas do currículo;
+     - <footer> para os créditos acadêmicos e repositório.
+     
+  2. NAVEGAÇÃO REATIVA: As 3 seções coexistem no mesmo HTML; o JavaScript
+     apenas alterna qual seção está visível adicionando ou removendo a classe
+     '.active', proporcionando uma navegação instantânea e sem recarregamento."
+  ============================================================================
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Plataforma de microlearning gamificada estilo Duolingo para ensino de Front-End e criação cumulativa de Portfólio/Currículo Web - UTFPR AS64C">
+  <title>UTFPR FrontLingo | Aprenda Front-End & Construa seu Currículo</title>
+
+  <!-- Estilos da Aplicação -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/trail.css">
+  <link rel="stylesheet" href="css/lesson-modal.css">
+  <link rel="stylesheet" href="css/portfolio-view.css">
+</head>
+
+<body>
+
+  <!-- =======================================================================
+       Header / Top Bar com Gamificação (Streak, XP, Vidas)
+       ======================================================================= -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-container" id="brand-home-btn">
+        <span class="brand-logo">🦉</span>
+        <div>
+          <h1 class="brand-title">FrontLingo</h1>
+          <span class="brand-badge">UTFPR • AS64C</span>
+        </div>
+      </div>
+
+      <!-- Abas de Navegação -->
+      <nav class="nav-tabs">
+        <button class="nav-tab-btn active" data-view="trail" id="tab-btn-trail">
+          <span class="tab-icon">🗺️</span> Trilha
+        </button>
+        <button class="nav-tab-btn" data-view="portfolio" id="tab-btn-portfolio">
+          <span class="tab-icon">💼</span> Meu Currículo
+        </button>
+        <button class="nav-tab-btn" data-view="team" id="tab-btn-team">
+          <span class="tab-icon">👥</span> Equipe UTFPR
+        </button>
+      </nav>
+
+      <!-- Status Gamificado -->
+      <div class="gamification-bar">
+        <div class="stat-chip streak" title="Dias Seguidos de Prática">
+          <span class="chip-icon">🔥</span>
+          <span id="streak-counter">3</span>
+        </div>
+        <div class="stat-chip xp" title="Pontos de Experiência (XP)">
+          <span class="chip-icon">⚡</span>
+          <span id="xp-counter">0</span>
+        </div>
+        <div class="stat-chip lives" title="Vidas Restantes">
+          <span class="chip-icon">❤️</span>
+          <span id="lives-counter">5</span>
+        </div>
+        <button class="btn-icon" id="btn-toggle-sound" title="Alternar Efeitos Sonoros">
+          <span id="sound-icon">🔊</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       Conteúdo Principal das Telas (SPA)
+       ======================================================================= -->
+  <main class="app-main">
+
+    <!-- Tela 1: Trilha Gamificada Estilo Duolingo -->
+    <section class="view-section active" id="view-trail">
+      <div class="trail-container" id="trail-root">
+        <!-- Renderizado dinamicamente via trail.js -->
+      </div>
+    </section>
+
+    <!-- Tela 2: Visualizador & Portfólio Cumulativo -->
+    <section class="view-section" id="view-portfolio">
+      <div class="portfolio-layout">
+
+        <!-- Sidebar de Conquistas & Ações -->
+        <aside class="portfolio-sidebar">
+          <h3 class="sidebar-section-title">
+            <span>🧱</span> Conquistas do Portfólio
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;">
+            Cada fase da trilha destrava uma melhoria real no seu currículo:
+          </p>
+
+          <div class="milestones-checklist" id="portfolio-milestones-list">
+            <!-- Renderizado dinamicamente -->
+          </div>
+
+          <div class="sidebar-actions">
+            <button class="btn-3d btn-3d-blue btn-sidebar" id="btn-open-edit-profile">
+              ✏️ Personalizar Meus Dados
+            </button>
+            <button class="btn-3d btn-3d-green btn-sidebar" id="btn-download-portfolio">
+              📥 Baixar index.html Pronto
+            </button>
+            <button class="btn-3d btn-3d-outline btn-sidebar" id="btn-open-github-guide">
+              🚀 Como Publicar no GitHub
+            </button>
+          </div>
+        </aside>
+
+        <!-- Painel Principal do Preview -->
+        <div class="portfolio-main-panel">
+          <div class="panel-toolbar">
+            <div class="browser-mockup-dots">
+              <span class="mockup-dot dot-red"></span>
+              <span class="mockup-dot dot-yellow"></span>
+              <span class="mockup-dot dot-green"></span>
+            </div>
+
+            <div class="preview-mode-tabs">
+              <button class="mode-tab-btn active" id="mode-tab-preview">
+                <span>🖥️</span> Visualizar Site
+              </button>
+              <button class="mode-tab-btn" id="mode-tab-code">
+                <span>💻</span> Código-Fonte
+              </button>
+            </div>
+
+            <div style="font-size: 0.8rem; color: var(--text-muted);">
+              Preview em Tempo Real
+            </div>
+          </div>
+
+          <!-- Viewport do Iframe -->
+          <div class="preview-viewport-container" id="portfolio-viewport-box">
+            <iframe id="portfolio-live-iframe" class="portfolio-iframe" title="Visualização do Currículo Web"></iframe>
+          </div>
+
+          <!-- Viewport de Código Inspecionado -->
+          <pre class="code-inspector-container hidden"
+            id="portfolio-code-inspector"><code id="code-snippet-area"></code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Tela 3: Equipe UTFPR & Sobre o Projeto -->
+    <section class="view-section" id="view-team">
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+
+        <div
+          style="background: var(--bg-surface); border: 2px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 28px;">
+          <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 12px; color: var(--color-blue);">
+            🎓 Sobre o Projeto FrontLingo (UTFPR)
+          </h2>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+            Este projeto foi concebido na disciplina <strong>AS64C - Certificadora de Competência Comum</strong> da
+            Universidade Tecnológica Federal do Paraná (UTFPR).
+          </p>
+          <p style="color: var(--text-secondary); line-height: 1.6;">
+            <strong>Objetivo Geral:</strong> Desenvolver um <em>Recurso Educacional Aberto (REA)</em> interativo para o
+            ensino de conceitos fundamentais de Front-End, utilizando metodologias ativas de gamificação e microlearning
+            inspiradas no Duolingo e no Mimo, resultando na construção autônoma de um Currículo Web profissional
+            publicado no GitHub Pages.
+          </p>
+        </div>
+
+        <div
+          style="background: var(--bg-surface); border: 2px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 28px;">
+          <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 16px;">
+            👥 Integrantes da Equipe & Atribuições
+          </h3>
+          <div class="team-list" id="team-cards-container">
+            <!-- Renderizado dinamicamente a partir dos dados da certificadora -->
+          </div>
+        </div>
+
+        <div
+          style="background: var(--bg-surface); border: 2px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <strong style="color: var(--text-primary); display: block;">Área de Testes do Avaliador</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Reinicie o progresso da trilha para testar
+              novamente do zero.</span>
+          </div>
+          <button class="btn-3d btn-3d-outline" id="btn-reset-progress"
+            style="color: var(--color-red); border-color: rgba(255, 75, 75, 0.4);">
+            ⚠️ Resetar Progresso
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================================
+       Modal do Player de Lição Gamificada (Estilo Duolingo)
+       ======================================================================= -->
+  <div class="lesson-modal-overlay hidden" id="lesson-player-modal">
+    <!-- Barra Superior -->
+    <div class="lesson-top-bar">
+      <button class="btn-close-lesson" title="Sair da lição">✕</button>
+      <div class="lesson-progress-track">
+        <div class="lesson-progress-fill"></div>
+      </div>
+      <div class="lesson-lives-badge">
+        <span>❤️</span>
+        <span class="lesson-lives-count">5</span>
+      </div>
+    </div>
+
+    <!-- Conteúdo da Pergunta -->
+    <div class="lesson-content-area"></div>
+
+    <!-- Banner Inferior com Resposta & Próximo Passo -->
+    <div class="lesson-footer-banner default">
+      <div class="lesson-footer-inner">
+        <div class="footer-feedback"></div>
+        <button class="btn-lesson-action disabled">Verificar Resposta</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       Modal: Personalizar Dados do Currículo
+       ======================================================================= -->
+  <div class="modal-backdrop hidden" id="modal-edit-profile">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">✏️ Personalizar Meu Currículo</h3>
+        <button class="btn-close-modal" id="btn-close-profile-modal">✕</button>
+      </div>
+      <form id="form-edit-profile">
+        <div class="form-group">
+          <label class="form-label" for="input-profile-nome">Seu Nome Completo:</label>
+          <input type="text" id="input-profile-nome" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-profile-cargo">Cargo / Objetivo Profissional:</label>
+          <input type="text" id="input-profile-cargo" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-profile-cidade">Localização (Cidade/Estado):</label>
+          <input type="text" id="input-profile-cidade" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-profile-email">E-mail Profissional:</label>
+          <input type="email" id="input-profile-email" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-profile-bio">Resumo Biográfico / Sobre Você:</label>
+          <textarea id="input-profile-bio" class="form-textarea" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-profile-github">Link do seu GitHub:</label>
+          <input type="url" id="input-profile-github" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-profile-linkedin">Link do seu LinkedIn:</label>
+          <input type="url" id="input-profile-linkedin" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-profile-foto">URL da Foto de Perfil:</label>
+          <input type="url" id="input-profile-foto" class="form-input" required>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+          <button type="button" class="btn-3d btn-3d-outline" id="btn-cancel-profile">Cancelar</button>
+          <button type="submit" class="btn-3d btn-3d-green">Salvar no Portfólio ✨</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       Modal: Guia de Publicação no GitHub Pages
+       ======================================================================= -->
+  <div class="modal-backdrop hidden" id="modal-github-guide">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">🚀 Publicando no GitHub Pages</h3>
+        <button class="btn-close-modal" id="btn-close-github-modal">✕</button>
+      </div>
+      <div>
+        <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
+          Com o GitHub Pages, seu currículo ficará disponível para qualquer recrutador no mundo com uma URL gratuita e
+          rápida!
+        </p>
+
+        <div class="github-steps-list">
+          <div class="step-card">
+            <span class="step-number">1</span>
+            <div class="step-text">
+              <strong>Baixe seu arquivo index.html</strong>
+              <p>Clique no botão verde <em>"Baixar index.html Pronto"</em> para exportar seu código completo.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <span class="step-number">2</span>
+            <div class="step-text">
+              <strong>Crie um Repositório no GitHub</strong>
+              <p>Acesse github.com/new, dê um nome como <code>meu-curriculo-web</code> e marque como
+                <strong>Public</strong>.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <span class="step-number">3</span>
+            <div class="step-text">
+              <strong>Faça o Upload do index.html</strong>
+              <p>Arraste o arquivo <code>index.html</code> para dentro do repositório e confirme em <em>Commit
+                  changes</em>.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <span class="step-number">4</span>
+            <div class="step-text">
+              <strong>Ative o GitHub Pages</strong>
+              <p>Vá em <strong>Settings</strong> > <strong>Pages</strong>. Em <em>Branch</em> selecione
+                <code>main</code> e clique em <strong>Save</strong>. Em 1 minuto seu site estará no ar!</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+          <button class="btn-3d btn-3d-blue" id="btn-confirm-github-modal">Entendi, vamos lá! 🚀</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="app-footer">
+    <p>
+      Plataforma FrontLingo • Projeto Certificadora UTFPR (AS64C) •
+      <a href="https://github.com/lgustavolemes/aprendendo-front-end" target="_blank" rel="noopener">Repositório Oficial
+        do Projeto</a>
+    </p>
+  </footer>
+
+  <!-- Scripts Modulares -->
+  <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

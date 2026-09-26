@@ -1,0 +1,660 @@
+/* ==========================================================================
+   trail.css - Estilos da Trilha de Aprendizado Gamificada (Estilo Duolingo)
+   ========================================================================== */
+
+.trail-container {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding-bottom: 60px;
+}
+
+/* ==========================================================================
+   Banner do Mascote DevBot estilo Duolingo
+   ========================================================================== */
+
+.trail-mascot-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, rgba(88, 204, 2, 0.15), rgba(28, 176, 246, 0.15));
+  border: 2px solid var(--color-green);
+  border-radius: var(--radius-lg);
+  padding: 18px 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  animation: floatMascot 4s ease-in-out infinite;
+}
+
+@keyframes floatMascot {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.mascot-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.mascot-face {
+  font-size: 3.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.mascot-badge {
+  background: var(--color-green);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-top: -6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.mascot-bubble {
+  flex: 1;
+}
+
+.bubble-title {
+  font-size: 1.15rem;
+  color: var(--color-green-light);
+  margin-bottom: 4px;
+}
+
+.bubble-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.bubble-desc span {
+  color: var(--color-blue);
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   Unidade / Módulo Card
+   ========================================================================== */
+
+/* ==========================================================================
+   Unidade / Módulo Card & Status Gamificado
+   ========================================================================== */
+
+.trail-unit {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: visible;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Quando possui popover aberto, eleva a unidade inteira para nunca ficar por baixo da próxima */
+.trail-unit:has(.node-popover.active),
+.trail-unit.has-active-popover {
+  z-index: 50 !important;
+}
+
+/* Trilha Concluída */
+.trail-unit.completed {
+  border-color: rgba(255, 200, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(255, 200, 0, 0.1);
+}
+
+/* Trilha Bloqueada */
+.trail-unit.locked {
+  border-color: rgba(255, 255, 255, 0.06);
+  opacity: 0.85;
+}
+
+.trail-unit.locked .unit-header {
+  background: linear-gradient(135deg, #202D37, #172129);
+  box-shadow: inset 0 -4px 0 #10171D;
+  color: #A0B0B9;
+}
+
+.trail-unit.locked .unit-title {
+  color: #CFD8DC;
+}
+
+.trail-unit.locked .unit-subtitle {
+  color: #8899A6;
+}
+
+/* Animação espetacular de Desbloqueio Automático */
+.trail-unit.just-unlocked {
+  animation: unitUnlockCelebration 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes unitUnlockCelebration {
+  0% {
+    transform: scale(0.97);
+    box-shadow: 0 0 0 0 rgba(88, 204, 2, 0.9);
+    border-color: #58CC02;
+  }
+  30% {
+    transform: scale(1.02);
+    box-shadow: 0 0 45px 12px rgba(88, 204, 2, 0.7);
+    border-color: #FFC800;
+  }
+  60% {
+    transform: scale(1.01);
+    box-shadow: 0 0 30px 8px rgba(255, 200, 0, 0.5);
+    border-color: #58CC02;
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-color: var(--border-subtle);
+  }
+}
+
+.unit-header {
+  background: var(--unit-color, var(--color-blue));
+  padding: 20px 24px;
+  border-radius: 16px 16px 0 0;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: inset 0 -4px 0 var(--unit-accent, var(--color-blue-dark));
+  transition: background 0.3s ease;
+}
+
+.unit-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.unit-tag {
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.unit-tag.active {
+  background: rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
+}
+
+.unit-tag.locked {
+  background: rgba(0, 0, 0, 0.45);
+  color: #A0B0B9;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.unit-tag.completed {
+  background: linear-gradient(135deg, #FFC800, #FFA800);
+  color: #121A20;
+}
+
+.unit-progress-pill {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+.unit-progress-pill.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.unit-progress-pill.locked {
+  background: rgba(0, 0, 0, 0.35);
+  color: #8899A6;
+}
+
+.unit-progress-pill.completed {
+  background: rgba(255, 200, 0, 0.2);
+  color: #FFC800;
+  border: 1px solid rgba(255, 200, 0, 0.3);
+}
+
+.unit-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.unit-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+.unit-icon-box {
+  font-size: 2.5rem;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.15);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.locked-icon-box {
+  background: rgba(0, 0, 0, 0.25);
+  filter: grayscale(0.5);
+}
+
+.unit-lock-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 1.15rem;
+  background: #172129;
+  border-radius: 50%;
+  padding: 2px;
+  line-height: 1;
+  border: 2px solid var(--border-subtle);
+}
+
+.unit-star-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  font-size: 1.2rem;
+  color: #FFC800;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  animation: bounceCrown 2s infinite ease-in-out;
+}
+
+/* Cortina translúcida sobre o caminho bloqueado */
+.trail-locked-curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(18, 26, 32, 0.65);
+  backdrop-filter: blur(3px);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.curtain-card {
+  background: var(--bg-surface-elevated);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  padding: 22px 30px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  max-width: 380px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  animation: curtainFloat 3s infinite ease-in-out;
+}
+
+@keyframes curtainFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.curtain-lock {
+  font-size: 2.2rem;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.curtain-card h4 {
+  color: #FFFFFF;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.curtain-card p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Mascote comemoração */
+.mascot-celebrate .bubble-title {
+  color: var(--color-gold);
+}
+
+.celebration-face {
+  animation: rocketWiggle 1s infinite alternate ease-in-out;
+}
+
+@keyframes rocketWiggle {
+  from { transform: rotate(-8deg) scale(1); }
+  to { transform: rotate(8deg) scale(1.1); }
+}
+
+/* ==========================================================================
+   Caminho & Nós Gamificados (Estilo Duolingo)
+   ========================================================================== */
+
+.unit-path {
+  padding: 40px 20px 65px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  position: relative;
+  background: radial-gradient(ellipse at center, rgba(40, 57, 66, 0.4) 0%, transparent 70%);
+}
+
+.node-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+.node-wrapper:has(.node-popover.active),
+.node-wrapper.has-active-popover {
+  z-index: 60 !important;
+}
+
+/* O Botão Circular do Nó */
+.trail-node {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.trail-node .node-icon {
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* Estado: Disponível / Atual */
+.trail-node.current {
+  background: var(--color-green);
+  box-shadow: 0 8px 0 var(--color-green-dark), 0 14px 20px rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
+}
+
+.trail-node.current:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 0 var(--color-green-dark), 0 16px 24px rgba(88, 204, 2, 0.4);
+}
+
+.trail-node.current:active {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 var(--color-green-dark);
+}
+
+/* Coroa no nó atual */
+.node-crown {
+  position: absolute;
+  top: -18px;
+  font-size: 1.4rem;
+  animation: bounceCrown 2s infinite ease-in-out;
+}
+
+@keyframes bounceCrown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Animação de pulso */
+.trail-node.pulse {
+  animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 8px 0 var(--color-green-dark), 0 0 0 0 rgba(88, 204, 2, 0.6); }
+  70% { box-shadow: 0 8px 0 var(--color-green-dark), 0 0 0 16px rgba(88, 204, 2, 0); }
+  100% { box-shadow: 0 8px 0 var(--color-green-dark), 0 0 0 0 rgba(88, 204, 2, 0); }
+}
+
+/* Estado: Concluído (Dourado de Vitória) */
+.trail-node.completed {
+  background: var(--color-gold);
+  box-shadow: 0 8px 0 var(--color-gold-dark), 0 12px 18px rgba(0, 0, 0, 0.2);
+  color: #FFFFFF;
+}
+
+.trail-node.completed:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 0 var(--color-gold-dark);
+}
+
+.trail-node.completed:active {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 var(--color-gold-dark);
+}
+
+.node-stars {
+  position: absolute;
+  bottom: -14px;
+  font-size: 0.85rem;
+  color: var(--color-gold);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* Estado: Bloqueado */
+.trail-node.locked {
+  background: var(--bg-surface-elevated);
+  box-shadow: 0 6px 0 var(--border-subtle);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.trail-node.locked:hover {
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   Popover / Balão de Lição do Nó
+   ========================================================================== */
+
+.node-popover {
+  display: none;
+  position: absolute;
+  top: 96px;
+  z-index: 100;
+  width: 290px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  animation: popoverFade 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.node-popover.active {
+  display: block;
+}
+
+@keyframes popoverFade {
+  from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.popover-arrow {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 16px;
+  height: 16px;
+  background: var(--bg-card);
+  border-left: 2px solid var(--border-subtle);
+  border-top: 2px solid var(--border-subtle);
+}
+
+.popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.popover-code {
+  font-size: 0.75rem;
+  font-weight: 900;
+  background: var(--bg-surface-elevated);
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.popover-xp {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-gold);
+}
+
+.popover-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.popover-summary {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.popover-milestone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface-elevated);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin-bottom: 14px;
+}
+
+.milestone-icon {
+  font-size: 1.2rem;
+}
+
+.milestone-text {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.milestone-text strong {
+  color: var(--color-green);
+  display: block;
+}
+
+.btn-start-lesson {
+  width: 100%;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.btn-start-lesson.btn-primary {
+  background: var(--color-green);
+  color: #FFFFFF;
+  box-shadow: 0 4px 0 var(--color-green-dark);
+}
+
+.btn-start-lesson.btn-primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--color-green-dark);
+}
+
+.btn-start-lesson.btn-replay {
+  background: var(--color-blue);
+  color: #FFFFFF;
+  box-shadow: 0 4px 0 var(--color-blue-dark);
+}
+
+.popover-locked-msg {
+  font-size: 0.82rem;
+  color: var(--color-red);
+  font-weight: 700;
+  text-align: center;
+  padding: 8px;
+  background: rgba(255, 75, 75, 0.1);
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   Nós Especiais de Vídeo-Aula (Gravação da Equipe)
+   ========================================================================== */
+
+.trail-node.video-node.current {
+  background: linear-gradient(135deg, #1CB0F6, #CE82FF);
+  box-shadow: 0 8px 0 #9333EA, 0 14px 20px rgba(147, 51, 234, 0.4);
+}
+
+.trail-node.video-node.current:hover {
+  box-shadow: 0 10px 0 #9333EA, 0 16px 26px rgba(206, 130, 255, 0.5);
+}
+
+.trail-node.video-node.current:active {
+  box-shadow: 0 2px 0 #9333EA;
+}
+
+.popover-video-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #CE82FF;
+  background: rgba(206, 130, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 6px;
+}
+
+.btn-start-lesson.btn-video {
+  background: linear-gradient(135deg, #7C3AED, #9333EA);
+  color: #FFFFFF;
+  box-shadow: 0 4px 0 #581C87;
+}
+
+.btn-start-lesson.btn-video:hover {
+  filter: brightness(1.1);
+}
+
+.btn-start-lesson.btn-video:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #581C87;
+}
+
